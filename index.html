@@ -1,12 +1,84 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>
+    AngularJS
+  </title>
+  <link type="test/css" href="main.css"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-app="ruter">
+  <nav class="navbar navbar-inverse" style="border-radius:0px;" ng:controller="NavigationController">
+   <div class="container-fluid">
+     <div class="navbar-header">
+       <a class="navbar-brand" href="#!">Medie/IT EgaaPHS</a>
+     </div>
+     <ul class="nav navbar-nav">
+       <li ng-repeat="item in items" class="item" ng-class="{'active': item.id == states.activeItem}" ng-click="states.activeItem=item.id"><a href="#!{{item.link}}">{{item.title}}</a></li>
+     </ul>
+     <!--<ul class="nav navbar-nav navbar-right">
+       <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+       <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+     </ul>-->
+   </div>
+ </nav>
+
+
+  <div class="container" ng-view>
+  </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+var app = angular.module("ruter", ["ngRoute"]);
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/", {
+        templateUrl : "hjem.htm"
+    })
+    .when("/hvem", {
+        templateUrl : "hvem.htm"
+    })
+    .when("/hvad", {
+        templateUrl : "hvad.htm"
+    })
+    .when("/hvor", {
+        templateUrl : "hvor.htm"
+    })
+    .otherwise({
+      templateUrl: '404.htm'
+     });
+});
+app.controller('NavigationController', function ($scope) {
+    // Must use a wrapper object, otherwise "activeItem" won't work
+    $scope.states = {};
+    $scope.states.activeItem = "1";
+    $scope.items = [{
+        id: '1',
+        link: '/',
+        title: 'Hjem'
+    }, {
+        id: '2',
+        link: '/hvem',
+        title: 'Hvem'
+    }, {
+        id: '3',
+        link: '/hvad',
+        title: 'Hvad'
+    }, {
+        id: '4',
+        link: '/hvor',
+        title: 'Hvor'
+    }];
+});
 
-<div ng-app="">
-  <p>Name: <input type="text" ng-model="name"></p>
-  <p ng-bind="name"></p>
-</div>
-
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 </body>
 </html>
